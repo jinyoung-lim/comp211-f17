@@ -1,5 +1,4 @@
 package Anagrams;
-
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -8,11 +7,10 @@ import static org.junit.Assert.*;
  * Created by Daniel Lim and JJ Lim on 9/17/17.
  */
 public class AnagramsTest {
-
     @Test
     public void testAnagrams() {
         Anagrams anagrams = new Anagrams();
-        // www.english-for-students.com/One-Word-Anagrams.html
+        // The example cases are taken from www.english-for-students.com/One-Word-Anagrams.html
         assertTrue(anagrams.isAnagrams("Resistance", "Ancestries"));
         assertTrue(anagrams.isAnagrams("tea", "ate"));
         assertTrue(anagrams.isAnagrams("eat", "tea"));
