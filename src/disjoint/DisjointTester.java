@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 public class DisjointTester {
     @Test
     public void testDisjoint() {
-        //
         Disjoint disjoint = new Disjoint();
         // from the given example
         assertTrue(disjoint.isDisjoint(new int[] {3, 2, 5}, new int [] {1, 4, 6}));

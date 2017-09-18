@@ -8,9 +8,7 @@ public class Disjoint {
     /**
      * Constructor for this class.
      */
-    public Disjoint() {
-
-    }
+    public Disjoint() {}
 
     /**
      * Determines if the two given arrays are disjoint (i.e. have no elements in common).

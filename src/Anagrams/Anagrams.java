@@ -10,8 +10,7 @@ public class Anagrams {
     /**
      * Constructor for the class Anagrams.
      */
-    public Anagrams() {
-    }
+    public Anagrams() {}
 
     /**
      * Determines if two input words are anagrams.
