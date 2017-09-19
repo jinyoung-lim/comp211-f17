@@ -31,7 +31,7 @@ public class Anagrams {
         char [] word1 = clean1.toCharArray();
         char [] word2 = clean2.toCharArray();
 
-        // Sort the character arrays
+        // Sort the character arrays in alphabetical order
         Arrays.sort(word1);
         Arrays.sort(word2);
 
