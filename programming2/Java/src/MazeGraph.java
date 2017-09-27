@@ -311,10 +311,11 @@ public class MazeGraph {
     }
 
     public static void main(String args[]) {
-        testMaze("maze1.txt");
-        testMaze("maze2.txt");
-        testMaze("maze3.txt");
-        testMaze("maze4.txt");
+        printMaze(readMaze("maze1.txt"));
+//        testMaze("maze1.txt");
+//        testMaze("maze2.txt");
+//        testMaze("maze3.txt");
+//        testMaze("maze4.txt");
     }
 
   /*
