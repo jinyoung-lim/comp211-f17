@@ -311,7 +311,7 @@ public class MazeGraph {
     }
 
     public static void main(String args[]) {
-        printMaze(readMaze("maze1.txt"));
+        printMaze(readMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze2.txt"));
 //        testMaze("maze1.txt");
 //        testMaze("maze2.txt");
 //        testMaze("maze3.txt");
