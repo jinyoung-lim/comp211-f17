@@ -1,4 +1,4 @@
-/* File: MazeGraph.java
+/** File: MazeGraph.java
  * Author: Devin Bjelland; based on MazeGraph.py by Susan Fox
  * Date: September 2014
  *
@@ -8,10 +8,17 @@
  * represents a grid square. Possible characters are either space for an open
  * square, X for a wall square, S for the starting point, or G for the goal.
  * This program then constructs an undirected graph to represent the maze
+ *
+ * Modified by JJ Lim, Daniel Lim in September 2017
+ *      Speficically, DFS, BFS, reconstructPath classes newly written, and
+ *      other classes modified moderately.
  */
+
+import sun.rmi.server.InactiveGroupException;
 
 import java.util.*;
 import java.io.*;
+
 
 public class MazeGraph {
     static class Position {
@@ -22,50 +29,65 @@ public class MazeGraph {
             this.x = x;
             this.y = y;
         }
-        
+
         public boolean equals(Object other) {
-           if (other == null) {
-              return false;
-           }
-           if (this.getClass() != other.getClass()) {
-              return false;
-           }
-           else {
+            if (other == null) {
+                return false;
+            }
+            if (this.getClass() != other.getClass()) {
+                return false;
+            }
+            else {
                 if (this.x == ((Position) other).x && this.y == ((Position) other).y)
                     return true;
                 else
-                    return false; 
-           }            
+                    return false;
+            }
         }
-    }
-    
-    /* This class holds the information that is p assed to the DFS and BFS algorithms.
-     * It just contains the startNode, goalNode and the graph, represented with adjecency lists.
+    } // end of Position class
+
+
+    /** This class holds the information that is passed to the DFS and BFS algorithms.
+     * It just contains the startNode, goalNode and the graph. It has simple getters.
      */
     static class ProcessedGraph {
         public int startNode;
         public int goalNode;
-        public ListGraph graph;        
+        public ListGraph graph;
 
         public ProcessedGraph(int startNode, int goalNode, ListGraph graph) {
             this.startNode = startNode;
             this.goalNode = goalNode;
             this.graph = graph;
         }
-    }
+
+        public int getStartNode() {
+            return startNode;
+        }
+
+        public int getGoalNode() {
+            return goalNode;
+        }
+
+        public ListGraph getGraph() {
+            return graph;
+        }
+
+    } // end of ProcessedGraph class
 
     static class ProcessedMaze {
         public Position startNode;
         public Position goalNode;
-        public ArrayList<Position> openSquares;        
+        public ArrayList<Position> openSquares;
 
         public ProcessedMaze(Position startNode, Position goalNode, ArrayList<Position> openSquares) {
             this.startNode = startNode;
             this.goalNode = goalNode;
             this.openSquares = openSquares;
         }
-    }
- 
+    }  // end of ProcessedMaze class
+
+
     public static ArrayList<String> readMaze(String filename) {
     /* Takes in a filename and reads the maze found there. Mazes are a series
      * of lines. It is assumed that the outline of the maze will all be filled in;
@@ -86,7 +108,7 @@ public class MazeGraph {
 
         return result;
     }
-    
+
     public static void printMaze(ArrayList<String> mazelist) {
     /* Takes in the maze represented as a list of strings (one string per row), and
      * it prints the maze as is.
@@ -97,14 +119,17 @@ public class MazeGraph {
         System.out.println();
     }
 
-    public static ProcessedGraph mazeToGraph(ArrayList<String> mazelist) {
-    /* Every open square in the maze becomes a node in the graph. It will
+    /**
+     * Every open square in the maze becomes a node in the graph. It will
      * have an edge to every open square that is immediately to the left, right,
      * above, or below it. First the program must determine all the open
      * squares, giving each an (row, col) coordinate. The node number for each
      * square corresponds to the position of its coordinates in the open square
      * list.
-    */
+     * @param mazelist
+     * @return
+     */
+    public static ProcessedGraph mazeToGraph(ArrayList<String> mazelist) {
         ProcessedMaze maze = collectOpenSquares(mazelist);
         if(maze != null) {
             int startNode = maze.openSquares.lastIndexOf(maze.startNode);
@@ -131,15 +156,19 @@ public class MazeGraph {
                         mazegraph.addEdge(i, neighIdx);
                     }
                 }
-                
+
             }
-            
+
             return new ProcessedGraph(startNode, goalNode, mazegraph);
         } else {
             return null;
         }
     }
 
+    /**
+     * @param mazelist unprocessed maze
+     * @return ProcessedMaze with the positions of start node and goal node, and a list of open nodes
+     */
     public static ProcessedMaze collectOpenSquares(ArrayList<String> mazelist) {
         ArrayList<Position> openList = new ArrayList<Position>();
         Position startPos = null;
@@ -161,18 +190,22 @@ public class MazeGraph {
         }
         if (startPos != null && goalPos != null)
             return (new ProcessedMaze(startPos, goalPos, openList));
-        else 
+        else
             return null;
     }
 
-    public static ArrayList<String> nodeMarkedMaze(ArrayList<String> unmarkedMaze) {
-    /*
+    /**
      * This is a utility function. It counts the open spaces in the same way as collectOpenSquares,
      * but it creates a copy of the maze list of strings, with every open space replaced by a number
-     * that represents its node number. To keep it compact, only the ones-place digit is stored; 
+     * that represents its node number. To keep it compact, only the ones-place digit is stored;
      * you can deduce the rest of the number from context. At the end of each line, it prints the
-     * last node number occurring on that line, and the node numbers for the start and goal if found."""
+     * last node number occurring on that line, and the node numbers for the start and goal if found.
+     *
+     * @param unmarkedMaze
+     * @return
      */
+    public static ArrayList<String> nodeMarkedMaze(ArrayList<String> unmarkedMaze) {
+
         int count = 0;
         ArrayList<String> newMazeList = new ArrayList<String>();
         for (String row : unmarkedMaze) {
@@ -212,110 +245,170 @@ public class MazeGraph {
         return newMazeList;
     }
 
-    public static ArrayList<Integer> BFS(ProcessedGraph processedGraph) {
-    /*
-     * Takes in a ProcessedGraph object which contains a graph represented as an adjacency list, the node number for the starting point,
-     * and for the goal point. It computes and returns a path from start to goal (if one exists), using
-     * the Depth-First Seach algorithm. The search starts from the startNode, and continues only until the
-     * goalNode is reached. If there is no path from start to goal then an empty list is returned.
+    /**
+     * Takes in a ProcessedGraph object which contains a graph represented as an adjacency list, the node
+     * number for the starting point, and for the goal point. It computes and returns a path from start to
+     * goal (if one exists), using the Depth-First Seach algorithm. The search starts from the startNode,
+     * and continues only until the goalNode is reached. If there is no path from start to goal then an empty
+     * list is returned.
+     *
+     * @param processedGraph
+     * @return
      */
-		int startN = processedGraph.startNode;
-		int goalN = processedGraph.goalNode;
-		ListGraph graph = processedGraph.graph;
-		if (startN == goalN) {
-			ArrayList<Integer> path = new ArrayList<Integer>();
-			path.add(goalN);
-			return path;
-		}
-		List<Integer> visited = new ArrayList<Integer>();
-		List<Integer> queue = new ArrayList<Integer>();
-		HashMap<Integer,Integer> pred = new HashMap<Integer,Integer>();
-		queue.add(startN);
-		visited.add(startN);
-		pred.put(startN, -1);
-		while (! queue.isEmpty()) {
-			int nextNode = (int)queue.get(0);
-			queue.remove(0);
-			List neighbors = graph.getNeighbors(nextNode);
-			for (int i = 0; i < neighbors.size(); i++) {
-				int nextNeigh = (int) neighbors.get(i);
-				if (!visited.contains(nextNeigh)) {
-					pred.put(nextNeigh, nextNode);
-					if (nextNeigh == goalN) {
-						return buildPath(goalN, pred);
-					}
-					else {
-						visited.add(nextNeigh);
-						queue.add(nextNeigh);
-					}
-						
-				}
-			}
-				
-		}
-        return new ArrayList<Integer>();// remove this and put in your code.  Feel free to define more than one function (helpers are...helpful!)
+    public static LinkedList<Integer> BFS(ProcessedGraph processedGraph) {
+        int startN = processedGraph.getStartNode();
+        int goalN = processedGraph.getGoalNode();
+        ListGraph listGraph = processedGraph.getGraph();
+
+        HashMap<Integer, Integer> preds = new HashMap<>();
+        List<Integer> visited = new ArrayList<>();
+        Queue<Integer> frontierQueue = new LinkedList<>();
+
+        preds.put(startN, -1);
+        visited.add(startN);
+        frontierQueue.add(startN);
+
+        while(!frontierQueue.isEmpty()) {
+            int currN = frontierQueue.remove(); // removes top of the stack and returns it
+
+            if (currN == goalN) {
+                return reconstructPath(preds, startN, goalN); // found the path
+            }
+            else {
+
+                List neighs = listGraph.getNeighbors(currN);
+
+                for (int i = 0, size = neighs.size(); i < size; i++) {
+                    int neigh = (int)neighs.get(i);
+                    if (!visited.contains(neigh)) {
+                        visited.add(neigh);
+                        preds.put(neigh, currN);
+                        frontierQueue.add(neigh);
+                    }
+                }
+            }
+        }
+
+        return new LinkedList<Integer>();
     }
 
-	public static ArrayList<Integer> buildPath(int goalN, HashMap pred) {
-		ArrayList<Integer> path = new ArrayList<Integer>();
-		int nextNeigh = goalN;
-		path.add(0, goalN);
-		int prevNeigh = (int)pred.get(nextNeigh);
-		while (prevNeigh != -1) {
-			path.add(0, prevNeigh);
-			nextNeigh = prevNeigh;
-			prevNeigh = (int)pred.get(nextNeigh);
-		}
-		return path;
-	}
-	
-	
-    public static ArrayList<Integer>DFS(ProcessedGraph processedGraph) {
-    /*
+    /**
+     * Reconstructs the path from goal node to start node using predecessor hash map.
+     * @param preds a hash map where the keys are nodes of a graph and value is the predecessor in search
+     *             (the back or tree edges)
+     * @param startN starting node's integer number
+     * @param goalN goal node's integer number
+     * @return
+     */
+    public static LinkedList<Integer> reconstructPath(HashMap<Integer, Integer> preds, int startN, int goalN) {
+        int currN = goalN;
+        LinkedList<Integer> path = new LinkedList<>();
+
+        while (currN != startN) {
+            path.add(0, currN);
+            currN = preds.get(currN);
+        }
+        path.add(0, startN);
+
+        return path;
+    }
+
+
+    /**
      * Takes in a ProcessedGraph object which contains a graph represented as an adjacency list, the node number for the starting point,
      * and for the goal point. It computes and returns a path from start to goal (if one exists), using
      * the Breadth-First Seach algorithm. The search starts from the startNode, and continues only until the
      * goalNode is reached. If there is no path from start to goal then an empty list is returned.
+     *
+     * @param processedGraph
+     * @return
      */
-        return new ArrayList<Integer>();// remove this and put in your code.  Feel free to define more than one function (helpers are...helpful!)
+    public static LinkedList<Integer> DFS(ProcessedGraph processedGraph) {
+        int startN = processedGraph.getStartNode();
+        int goalN = processedGraph.getGoalNode();
+        ListGraph listGraph = processedGraph.getGraph();
+
+        HashMap<Integer, Integer> preds = new HashMap<>();
+        List<Integer> visited = new ArrayList<>();
+        Stack<Integer> frontierStack = new Stack<>();
+
+        preds.put(startN, -1);
+        visited.add(startN);
+        frontierStack.push(startN);
+
+        while(!frontierStack.isEmpty()) {
+            int currN = frontierStack.pop(); // removes top of the stack and returns it
+
+            if (currN == goalN) {
+                return reconstructPath(preds, startN, goalN); // found the path
+            }
+            else {
+
+                List neighs = listGraph.getNeighbors(currN);
+
+                for (int i = 0, size = neighs.size(); i < size; i++) {
+                    int neigh = (int)neighs.get(i);
+                    if (!visited.contains(neigh)) {
+                        visited.add(neigh);
+                        preds.put(neigh, currN);
+                        frontierStack.push(neigh);
+                    }
+                }
+            }
+        }
+
+        return new LinkedList<Integer>();
     }
 
-    public static void testMaze(String mazeFile) {
-    /*
-     * Takes a filename as input. It reads the maze from that file, and
+
+    /**Takes a filename as input. It reads the maze from that file, and
      * prints it. You can print the node-marked version instead by uncommenting
      * the next lines. Next it converts the maze to be a graph, returning the
      * graph object and the node numbers of the start and goal nodes. Once you
      * have define BFS and DFS, uncomment these lines to test and print the
      * result.
+     *
+     * @param mazeFile
      */
-        ArrayList<String> unprocessedMaze = readMaze(mazeFile);
+    public static void testMaze(String mazeFile) {
+        ArrayList<String> unprocessedMaze = readMaze(mazeFile);         // reads the maze from a file
         printMaze(unprocessedMaze);
-        ProcessedGraph processedGraph = mazeToGraph(unprocessedMaze);
+        ProcessedGraph processedGraph = mazeToGraph(unprocessedMaze);    // converts the maze to a graph for you
         ArrayList<String> mazeCopy = nodeMarkedMaze(unprocessedMaze);
         printMaze(mazeCopy);
-        System.out.println("StartNode=" + processedGraph.startNode + " GoalNode=" + processedGraph.goalNode);
-        ArrayList<Integer> path1 = DFS(processedGraph);
+        System.out.println("StartNode=" + processedGraph.startNode + " GoalNode=" + processedGraph.goalNode);  // shows how to access start and goal.
+        // To access the graph, you would use processedGraph.graph
+        LinkedList<Integer> path1 = DFS(processedGraph);
         printPath("DFS", path1);
-        ArrayList<Integer> path2 = BFS(processedGraph);
+        LinkedList<Integer> path2 = BFS(processedGraph);
         printPath("BFS", path2);
-        
+
     }
-    
-    public static void printPath(String alg, ArrayList<Integer> path) {
+
+
+    /**
+     *
+     * @param alg
+     * @param path
+     */
+    public static void printPath(String alg, LinkedList<Integer> path) {
         if (path.size() != 0) {
-            System.out.println(alg + ": path is" + path.size() + "long:" + path);
+            System.out.println(alg + ": path is " + path.size() + " long:" + path);
         } else  {
             System.out.println(alg + ": No Path found!");
         }
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String args[]) {
-        printMaze(readMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze2.txt"));
-//        testMaze("maze1.txt");
-//        testMaze("maze2.txt");
-//        testMaze("maze3.txt");
-//        testMaze("maze4.txt");
+//        printMaze(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt"));
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze1.txt");
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt");
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt");
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze4.txt");
     }
 
   /*

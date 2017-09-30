@@ -40,14 +40,14 @@ class ListGraph {
      * Returns the graph's size
      */
     public int getSize() {
-	return numNodes;
+		return numNodes;
     }
 
     /**
      * Takes in a node number and returns the list of its neighbors
      */
     public List getNeighbors(int node) {
-	return adjList.get(node);
+		return adjList.get(node);
     }
 
 	    
@@ -55,11 +55,11 @@ class ListGraph {
      * Takes in two nodes, and checks to see if an edge exists between them
      */
     public boolean areNeighbors(int node1, int node2) {
-	if ((0 <= node1) && (node1 < numNodes) && (0 <= node2) && (node2 < numNodes)) {
-	    List neighs = adjList.get(node1);
-	    return neighs.contains(node2);
-	}
-	return false;
+		if ((0 <= node1) && (node1 < numNodes) && (0 <= node2) && (node2 < numNodes)) {
+			List neighs = adjList.get(node1);
+			return neighs.contains(node2);
+		}
+		return false;
     }
 
 
