@@ -10,8 +10,9 @@
  * This program then constructs an undirected graph to represent the maze
  *
  * Modified by JJ Lim, Daniel Lim in September 2017
- *      Speficically, DFS, BFS, reconstructPath classes newly written, and
- *      other classes modified moderately.
+ *    Speficically, DFS, BFS, reconstructPath methods newly written (using
+ *    pseudocodes provided by Prof.Susan Fox), and some other classes are modified
+ *    to go along with DFS, BFS, reconstructPath methods.
  */
 
 import sun.rmi.server.InactiveGroupException;
@@ -47,7 +48,8 @@ public class MazeGraph {
     } // end of Position class
 
 
-    /** This class holds the information that is passed to the DFS and BFS algorithms.
+    /**
+     * This class holds the information that is passed to the DFS and BFS algorithms.
      * It just contains the startNode, goalNode and the graph. It has simple getters.
      */
     static class ProcessedGraph {
@@ -87,14 +89,17 @@ public class MazeGraph {
         }
     }  // end of ProcessedMaze class
 
-
-    public static ArrayList<String> readMaze(String filename) {
-    /* Takes in a filename and reads the maze found there. Mazes are a series
+    /**
+     * Takes in a filename and reads the maze found there. Mazes are a series
      * of lines. It is assumed that the outline of the maze will all be filled in;
      * any characters before the first X or after the last X is discarded.  It builds
      * a list whose contents are each rows of the maze. Each row is represented as a string.
+     *
+     * @param filename file path of the maze file including the file name
+     * @return reading of the maze file in the form of ArrayList of String
      */
-        ArrayList<String> result = new ArrayList<String>();
+    public static ArrayList<String> readMaze(String filename) {
+        ArrayList<String> result = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
             String line;
@@ -109,10 +114,12 @@ public class MazeGraph {
         return result;
     }
 
-    public static void printMaze(ArrayList<String> mazelist) {
-    /* Takes in the maze represented as a list of strings (one string per row), and
+    /**
+     * Takes in the maze represented as a list of strings (one string per row), and
      * it prints the maze as is.
+     * @param mazelist
      */
+    public static void printMaze(ArrayList<String> mazelist) {
         for(String line : mazelist) {
             System.out.println(line);
         }
@@ -166,6 +173,7 @@ public class MazeGraph {
     }
 
     /**
+     * Collects open squares from the maze.
      * @param mazelist unprocessed maze
      * @return ProcessedMaze with the positions of start node and goal node, and a list of open nodes
      */
@@ -202,7 +210,7 @@ public class MazeGraph {
      * last node number occurring on that line, and the node numbers for the start and goal if found.
      *
      * @param unmarkedMaze
-     * @return
+     * @return marked maze in ArrayList of String
      */
     public static ArrayList<String> nodeMarkedMaze(ArrayList<String> unmarkedMaze) {
 
@@ -275,7 +283,6 @@ public class MazeGraph {
                 return reconstructPath(preds, startN, goalN); // found the path
             }
             else {
-
                 List neighs = listGraph.getNeighbors(currN);
 
                 for (int i = 0, size = neighs.size(); i < size; i++) {
@@ -315,15 +322,17 @@ public class MazeGraph {
 
 
     /**
-     * Takes in a ProcessedGraph object which contains a graph represented as an adjacency list, the node number for the starting point,
-     * and for the goal point. It computes and returns a path from start to goal (if one exists), using
-     * the Breadth-First Seach algorithm. The search starts from the startNode, and continues only until the
-     * goalNode is reached. If there is no path from start to goal then an empty list is returned.
+     * It computes and returns a path from start to goal (if one exists), using the Breadth-First Seach algorithm.
+     * The search starts from the startNode, and continues only until the goalNode is reached. If there is no path
+     * from start to goal then an empty list is returned.
      *
-     * @param processedGraph
-     * @return
+     * @param processedGraph contains a graph represented as an adjacency list, the node number for the starting point,
+     * and for the goal point.
+     * @return a path from start to goal (if one exists), null otherwise
      */
     public static LinkedList<Integer> DFS(ProcessedGraph processedGraph) {
+        long startTime = System.currentTimeMillis();
+
         int startN = processedGraph.getStartNode();
         int goalN = processedGraph.getGoalNode();
         ListGraph listGraph = processedGraph.getGraph();
@@ -357,18 +366,22 @@ public class MazeGraph {
             }
         }
 
+        long endTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time: " + (endTime-startTime));
+
         return new LinkedList<Integer>();
     }
 
 
-    /**Takes a filename as input. It reads the maze from that file, and
+    /**
+     * Takes a filename as input. It reads the maze from that file, and
      * prints it. You can print the node-marked version instead by uncommenting
      * the next lines. Next it converts the maze to be a graph, returning the
      * graph object and the node numbers of the start and goal nodes. Once you
      * have define BFS and DFS, uncomment these lines to test and print the
      * result.
      *
-     * @param mazeFile
+     * @param mazeFile file path of the maze file including the file name
      */
     public static void testMaze(String mazeFile) {
         ArrayList<String> unprocessedMaze = readMaze(mazeFile);         // reads the maze from a file
@@ -382,14 +395,14 @@ public class MazeGraph {
         printPath("DFS", path1);
         LinkedList<Integer> path2 = BFS(processedGraph);
         printPath("BFS", path2);
-
     }
 
 
     /**
-     *
-     * @param alg
-     * @param path
+     * Prints out the algorithm name given in string and the path of the maze solved
+     * with that algorithm.
+     * @param alg name of the algorithm in string, "DFS" or "BFS"
+     * @param path path of the maze using the algorithm
      */
     public static void printPath(String alg, LinkedList<Integer> path) {
         if (path.size() != 0) {
@@ -400,19 +413,105 @@ public class MazeGraph {
     }
 
     /**
-     *
+     * Main method of the class.
      * @param args
      */
     public static void main(String args[]) {
 //        printMaze(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt"));
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze1.txt");
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt");
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt");
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze4.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze1.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze4.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze5.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze6.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze7.txt");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze8.txt");
+//
+//        //Test the running time on larger mazes (mazes 3, 5, 8) to compare between DFS and BFS.
+//        System.out.println();
+//        System.out.println("///////////// RUNNING TIME COMPARISON /////////////");
+//        ProcessedGraph processedGraph3 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt"));
+//        long maze3DFSStartTime = System.currentTimeMillis();
+//        DFS(processedGraph3);
+//        long maze3DFSEndTime = System.currentTimeMillis();
+//        System.out.println("Total DFS Time for maze3: " + (maze3DFSEndTime-maze3DFSStartTime));
+//        long maze3BFSStartTime = System.currentTimeMillis();
+//        BFS(processedGraph3);
+//        long maze3BFSEndTime = System.currentTimeMillis();
+//        System.out.println("Total BFS Time for maze3: " + (maze3BFSEndTime-maze3BFSStartTime));
+//        System.out.println();
+//
+//        ProcessedGraph processedGraph5 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze5.txt"));
+//        long maze5DFSStartTime = System.currentTimeMillis();
+//        DFS(processedGraph5);
+//        long maze5DFSEndTime = System.currentTimeMillis();
+//        System.out.println("Total DFS Time for maze5: " + (maze5DFSEndTime-maze5DFSStartTime));
+//        long maze5BFSStartTime = System.currentTimeMillis();
+//        BFS(processedGraph5);
+//        long maze5BFSEndTime = System.currentTimeMillis();
+//        System.out.println("Total BFS Time for maze5: " + (maze5BFSEndTime-maze5BFSStartTime));
+//        System.out.println();
+//
+//        ProcessedGraph processedGraph8 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze8.txt"));
+//        long maze8DFSStartTime = System.currentTimeMillis();
+//        DFS(processedGraph8);
+//        long maze8DFSEndTime = System.currentTimeMillis();
+//        System.out.println("Total DFS Time for maze8: " + (maze8DFSEndTime-maze8DFSStartTime));
+//        long maze8BFSStartTime = System.currentTimeMillis();
+//        BFS(processedGraph8);
+//        long maze8BFSEndTime = System.currentTimeMillis();
+//        System.out.println("Total BFS Time for maze8: " + (maze8BFSEndTime-maze8BFSStartTime));
+//        System.out.println();
+//
+//
+        System.out.println("/// Same maze different StartN, GoalN ///");
+        ProcessedGraph processedGraph7 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze7.txt"));
+        long maze7DFSStartTime = System.currentTimeMillis();
+        DFS(processedGraph7);
+        long maze7DFSEndTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time for maze7: " + (maze7DFSEndTime-maze7DFSStartTime));
+        long maze7BFSStartTime = System.currentTimeMillis();
+        BFS(processedGraph7);
+        long maze7BFSEndTime = System.currentTimeMillis();
+        System.out.println("Total BFS Time for maze7: " + (maze7BFSEndTime-maze7BFSStartTime));
+        System.out.println();
+
+        ProcessedGraph processedGraph9 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze9.txt"));
+        long maze9DFSStartTime = System.currentTimeMillis();
+        DFS(processedGraph9);
+        long maze9DFSEndTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time for maze9: " + (maze9DFSEndTime-maze9DFSStartTime));
+        long maze9BFSStartTime = System.currentTimeMillis();
+        BFS(processedGraph9);
+        long maze9BFSEndTime = System.currentTimeMillis();
+        System.out.println("Total BFS Time for maze9: " + (maze9BFSEndTime-maze9BFSStartTime));
+        System.out.println();
+
+        ProcessedGraph processedGraph10 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze10.txt"));
+        long maze10DFSStartTime = System.currentTimeMillis();
+        DFS(processedGraph10);
+        long maze10DFSEndTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time for maze10: " + (maze10DFSEndTime-maze10DFSStartTime));
+        long maze10BFSStartTime = System.currentTimeMillis();
+        BFS(processedGraph10);
+        long maze10BFSEndTime = System.currentTimeMillis();
+        System.out.println("Total BFS Time for maze10: " + (maze10BFSEndTime-maze10BFSStartTime));
+        System.out.println();
+
+        ProcessedGraph processedGraph11 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze11.txt"));
+        long maze11DFSStartTime = System.currentTimeMillis();
+        DFS(processedGraph11);
+        long maze11DFSEndTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time for maze11: " + (maze11DFSEndTime-maze11DFSStartTime));
+        long maze11BFSStartTime = System.currentTimeMillis();
+        BFS(processedGraph11);
+        long maze11BFSEndTime = System.currentTimeMillis();
+        System.out.println("Total BFS Time for maze11: " + (maze11BFSEndTime-maze11BFSStartTime));
+        System.out.println();
     }
 
   /*
-    Below I have copied the results of the nameMarkedMaze function, which labels open
+    Below I (Prof. Susan Fox) have copied the results of the nameMarkedMaze function, which labels open
     spaces by the ones-place digit for the corresponding node in the graph. At the end
     of each line it prints the last node value on that line. And it prints the node number
     for the start and goal when it finds them.  This can make it easier to trace the path
