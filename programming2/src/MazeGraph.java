@@ -1,4 +1,5 @@
-/** File: MazeGraph.java
+/*
+ * File: MazeGraph.java
  * Author: Devin Bjelland; based on MazeGraph.py by Susan Fox
  * Date: September 2014
  *
@@ -13,6 +14,11 @@
  *    Speficically, DFS, BFS, reconstructPath methods newly written (using
  *    pseudocodes provided by Prof.Susan Fox), and some other classes are modified
  *    to go along with DFS, BFS, reconstructPath methods.
+ *
+ * Possible Improvements: This code was translated line by line from Prof. Susan
+ * Fox's Python code and thus lacks optimization to Java language. More careful
+ * organization of codes and consideration of class and method types would enhance
+ * readability and possibly performance.
  */
 
 import sun.rmi.server.InactiveGroupException;
