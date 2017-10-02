@@ -420,24 +420,23 @@ public class MazeGraph {
      */
     public static void main(String args[]) {
         // smaller mazes
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze1.txt");
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt");
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze4.txt");
-        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze6.txt");
+        testMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze1.txt");
+        testMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze2.txt");
+        testMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze10.txt");
+        testMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze11.txt");
+        testMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze12.txt");
+        testMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze4.txt");
+        testMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze6.txt");
 
         // larger mazes (uncomment each for testing)
 //        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt");
 //        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze5.txt");
 //        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze7.txt");
 //
-//        // same maze with startN and endN positions switched
-//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze8.txt");
-//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze9.txt");
-
         //Test the running time on larger mazes (mazes 3, 5, 8) to compare between DFS and BFS.
         System.out.println();
         System.out.println("///////////// RUNNING TIME COMPARISON for Larger Mazes /////////////");
-        ProcessedGraph processedGraph3 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt"));
+        ProcessedGraph processedGraph3 = mazeToGraph(readMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze3.txt"));
         long maze3DFSStartTime = System.currentTimeMillis();
         DFS(processedGraph3);
         long maze3DFSEndTime = System.currentTimeMillis();
@@ -448,7 +447,7 @@ public class MazeGraph {
         System.out.println("Total BFS Time for maze3: " + (maze3BFSEndTime-maze3BFSStartTime));
         System.out.println();
 
-        ProcessedGraph processedGraph5 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze5.txt"));
+        ProcessedGraph processedGraph5 = mazeToGraph(readMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze5.txt"));
         long maze5DFSStartTime = System.currentTimeMillis();
         DFS(processedGraph5);
         long maze5DFSEndTime = System.currentTimeMillis();
@@ -459,7 +458,7 @@ public class MazeGraph {
         System.out.println("Total BFS Time for maze5: " + (maze5BFSEndTime-maze5BFSStartTime));
         System.out.println();
 
-        ProcessedGraph processedGraph7 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze7.txt"));
+        ProcessedGraph processedGraph7 = mazeToGraph(readMaze("/Users/danielimmy/IdeaProjects/com124-s17/comp211-f17/programming2/src/maze7.txt"));
         long maze7DFSStartTime = System.currentTimeMillis();
         DFS(processedGraph7);
         long maze7DFSEndTime = System.currentTimeMillis();
@@ -470,27 +469,5 @@ public class MazeGraph {
         System.out.println("Total BFS Time for maze7: " + (maze7BFSEndTime-maze7BFSStartTime));
         System.out.println();
 
-        System.out.println("///////////// RUNNING TIME COMPARISON for Same maze different StartN, GoalN /////////////");
-        ProcessedGraph processedGraph8 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze8.txt"));
-        long maze8DFSStartTime = System.currentTimeMillis();
-        DFS(processedGraph8);
-        long maze8DFSEndTime = System.currentTimeMillis();
-        System.out.println("Total DFS Time for maze8: " + (maze8DFSEndTime-maze8DFSStartTime));
-        long maze8BFSStartTime = System.currentTimeMillis();
-        BFS(processedGraph8);
-        long maze8BFSEndTime = System.currentTimeMillis();
-        System.out.println("Total BFS Time for maze8: " + (maze8BFSEndTime-maze8BFSStartTime));
-        System.out.println();
-
-        ProcessedGraph processedGraph9 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze9.txt"));
-        long maze9DFSStartTime = System.currentTimeMillis();
-        DFS(processedGraph9);
-        long maze9DFSEndTime = System.currentTimeMillis();
-        System.out.println("Total DFS Time for maze9: " + (maze9DFSEndTime-maze9DFSStartTime));
-        long maze9BFSStartTime = System.currentTimeMillis();
-        BFS(processedGraph9);
-        long maze9BFSEndTime = System.currentTimeMillis();
-        System.out.println("Total BFS Time for maze9: " + (maze9BFSEndTime-maze9BFSStartTime));
-        System.out.println();
     }
 }
