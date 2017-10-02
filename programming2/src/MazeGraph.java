@@ -331,8 +331,6 @@ public class MazeGraph {
      * @return a path from start to goal (if one exists), null otherwise
      */
     public static LinkedList<Integer> DFS(ProcessedGraph processedGraph) {
-        long startTime = System.currentTimeMillis();
-
         int startN = processedGraph.getStartNode();
         int goalN = processedGraph.getGoalNode();
         ListGraph listGraph = processedGraph.getGraph();
@@ -366,9 +364,6 @@ public class MazeGraph {
             }
         }
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("Total DFS Time: " + (endTime-startTime));
-
         return new LinkedList<Integer>();
     }
 
@@ -395,6 +390,7 @@ public class MazeGraph {
         printPath("DFS", path1);
         LinkedList<Integer> path2 = BFS(processedGraph);
         printPath("BFS", path2);
+        System.out.println();
     }
 
 
@@ -417,54 +413,46 @@ public class MazeGraph {
      * @param args
      */
     public static void main(String args[]) {
-//        printMaze(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt"));
-//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze1.txt");
-//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt");
+        // smaller mazes
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze1.txt");
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze2.txt");
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze4.txt");
+        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze6.txt");
+
+        // larger mazes (uncomment each for testing)
 //        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt");
-//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze4.txt");
 //        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze5.txt");
-//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze6.txt");
 //        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze7.txt");
+//
+//        // same maze with startN and endN positions switched
 //        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze8.txt");
-//
-//        //Test the running time on larger mazes (mazes 3, 5, 8) to compare between DFS and BFS.
-//        System.out.println();
-//        System.out.println("///////////// RUNNING TIME COMPARISON /////////////");
-//        ProcessedGraph processedGraph3 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt"));
-//        long maze3DFSStartTime = System.currentTimeMillis();
-//        DFS(processedGraph3);
-//        long maze3DFSEndTime = System.currentTimeMillis();
-//        System.out.println("Total DFS Time for maze3: " + (maze3DFSEndTime-maze3DFSStartTime));
-//        long maze3BFSStartTime = System.currentTimeMillis();
-//        BFS(processedGraph3);
-//        long maze3BFSEndTime = System.currentTimeMillis();
-//        System.out.println("Total BFS Time for maze3: " + (maze3BFSEndTime-maze3BFSStartTime));
-//        System.out.println();
-//
-//        ProcessedGraph processedGraph5 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze5.txt"));
-//        long maze5DFSStartTime = System.currentTimeMillis();
-//        DFS(processedGraph5);
-//        long maze5DFSEndTime = System.currentTimeMillis();
-//        System.out.println("Total DFS Time for maze5: " + (maze5DFSEndTime-maze5DFSStartTime));
-//        long maze5BFSStartTime = System.currentTimeMillis();
-//        BFS(processedGraph5);
-//        long maze5BFSEndTime = System.currentTimeMillis();
-//        System.out.println("Total BFS Time for maze5: " + (maze5BFSEndTime-maze5BFSStartTime));
-//        System.out.println();
-//
-//        ProcessedGraph processedGraph8 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze8.txt"));
-//        long maze8DFSStartTime = System.currentTimeMillis();
-//        DFS(processedGraph8);
-//        long maze8DFSEndTime = System.currentTimeMillis();
-//        System.out.println("Total DFS Time for maze8: " + (maze8DFSEndTime-maze8DFSStartTime));
-//        long maze8BFSStartTime = System.currentTimeMillis();
-//        BFS(processedGraph8);
-//        long maze8BFSEndTime = System.currentTimeMillis();
-//        System.out.println("Total BFS Time for maze8: " + (maze8BFSEndTime-maze8BFSStartTime));
-//        System.out.println();
-//
-//
-        System.out.println("/// Same maze different StartN, GoalN ///");
+//        testMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze9.txt");
+
+        //Test the running time on larger mazes (mazes 3, 5, 8) to compare between DFS and BFS.
+        System.out.println();
+        System.out.println("///////////// RUNNING TIME COMPARISON for Larger Mazes /////////////");
+        ProcessedGraph processedGraph3 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze3.txt"));
+        long maze3DFSStartTime = System.currentTimeMillis();
+        DFS(processedGraph3);
+        long maze3DFSEndTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time for maze3: " + (maze3DFSEndTime-maze3DFSStartTime));
+        long maze3BFSStartTime = System.currentTimeMillis();
+        BFS(processedGraph3);
+        long maze3BFSEndTime = System.currentTimeMillis();
+        System.out.println("Total BFS Time for maze3: " + (maze3BFSEndTime-maze3BFSStartTime));
+        System.out.println();
+
+        ProcessedGraph processedGraph5 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze5.txt"));
+        long maze5DFSStartTime = System.currentTimeMillis();
+        DFS(processedGraph5);
+        long maze5DFSEndTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time for maze5: " + (maze5DFSEndTime-maze5DFSStartTime));
+        long maze5BFSStartTime = System.currentTimeMillis();
+        BFS(processedGraph5);
+        long maze5BFSEndTime = System.currentTimeMillis();
+        System.out.println("Total BFS Time for maze5: " + (maze5BFSEndTime-maze5BFSStartTime));
+        System.out.println();
+
         ProcessedGraph processedGraph7 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze7.txt"));
         long maze7DFSStartTime = System.currentTimeMillis();
         DFS(processedGraph7);
@@ -474,6 +462,18 @@ public class MazeGraph {
         BFS(processedGraph7);
         long maze7BFSEndTime = System.currentTimeMillis();
         System.out.println("Total BFS Time for maze7: " + (maze7BFSEndTime-maze7BFSStartTime));
+        System.out.println();
+
+        System.out.println("///////////// RUNNING TIME COMPARISON for Same maze different StartN, GoalN /////////////");
+        ProcessedGraph processedGraph8 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze8.txt"));
+        long maze8DFSStartTime = System.currentTimeMillis();
+        DFS(processedGraph8);
+        long maze8DFSEndTime = System.currentTimeMillis();
+        System.out.println("Total DFS Time for maze8: " + (maze8DFSEndTime-maze8DFSStartTime));
+        long maze8BFSStartTime = System.currentTimeMillis();
+        BFS(processedGraph8);
+        long maze8BFSEndTime = System.currentTimeMillis();
+        System.out.println("Total BFS Time for maze8: " + (maze8BFSEndTime-maze8BFSStartTime));
         System.out.println();
 
         ProcessedGraph processedGraph9 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze9.txt"));
@@ -486,125 +486,5 @@ public class MazeGraph {
         long maze9BFSEndTime = System.currentTimeMillis();
         System.out.println("Total BFS Time for maze9: " + (maze9BFSEndTime-maze9BFSStartTime));
         System.out.println();
-
-        ProcessedGraph processedGraph10 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze10.txt"));
-        long maze10DFSStartTime = System.currentTimeMillis();
-        DFS(processedGraph10);
-        long maze10DFSEndTime = System.currentTimeMillis();
-        System.out.println("Total DFS Time for maze10: " + (maze10DFSEndTime-maze10DFSStartTime));
-        long maze10BFSStartTime = System.currentTimeMillis();
-        BFS(processedGraph10);
-        long maze10BFSEndTime = System.currentTimeMillis();
-        System.out.println("Total BFS Time for maze10: " + (maze10BFSEndTime-maze10BFSStartTime));
-        System.out.println();
-
-        ProcessedGraph processedGraph11 = mazeToGraph(readMaze("/Users/JJ/IdeaProjects/comp221-f17/comp211-f17/programming2/src/maze11.txt"));
-        long maze11DFSStartTime = System.currentTimeMillis();
-        DFS(processedGraph11);
-        long maze11DFSEndTime = System.currentTimeMillis();
-        System.out.println("Total DFS Time for maze11: " + (maze11DFSEndTime-maze11DFSStartTime));
-        long maze11BFSStartTime = System.currentTimeMillis();
-        BFS(processedGraph11);
-        long maze11BFSEndTime = System.currentTimeMillis();
-        System.out.println("Total BFS Time for maze11: " + (maze11BFSEndTime-maze11BFSStartTime));
-        System.out.println();
     }
-
-  /*
-    Below I (Prof. Susan Fox) have copied the results of the nameMarkedMaze function, which labels open
-    spaces by the ones-place digit for the corresponding node in the graph. At the end
-    of each line it prints the last node value on that line. And it prints the node number
-    for the start and goal when it finds them.  This can make it easier to trace the path
-    and check whether your searching algorithms are correct.
-
-    Maze 1:
-    XXXXXXXXXXXXXXXXXXXX     -1
-    X01234567X890X12345X     15
-    XX6XXX7XXX8X9XXXXX0X     20
-    X123X456789X0123456X     36
-    XX78XXXXX9XXXX0XXXXX     40
-    X1234567X8901X23456X     56
-    X7XXXX8XX9XX01X2XXXX     62
-    XSX45678XX9XX012345X     75    Start at 63
-    X6X7XXX8X90X12X3XXXX     83
-    X4X567X890XX1XX23X4X     94
-    X5XX6XXXXXX789XX0X1X     101
-    X2345X678X90X1X2345X     115
-    X6XXXX7X8X9X01XXXX2X     122
-    X345678X901XX2345G7X     137    Goal at 136
-    XXXXXXXXXXXXXXXXXXXX     137
-
-
-    Maze 2:
-    XXXXXXX     -1
-    XS1234X     4
-    XXX567X     7
-    X890X1X     11
-    X234X5X     15
-    X6X78GX     19    Goal at 19
-    XXXXXXX     19
-
-
-    Maze 3:
-    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     -1
-    X0123456789012345678901234XXXXXXXXXXXXXXXXXX567890123456789012XXX345678901234567X     57
-    X8901234567890123456789012XXXXXXXXXXXXXXXXX3456789012345678901XXXX23456789012345X     115
-    X67890S2345678901234567890XXXXXXXXXXXXXXXX12345678901234567890XXXX12345678901234X     174    Start at 121
-    X56789012345X6789012345678XXXXXXXXXXXXXXX901234567890123456789XXXX01234567890123X     233
-    X4567890123XXX456789012345XXXXXXXXXXXXXX678901234567890123456789012345678901234XX     294
-    X567890123XXXXX45678901234XXXXXXXXXXXXX5678901234567890123456789012345678901234XX     354
-    X56789012XXXXXXX3456789012XXXXXXXXXXXX3456789012345678901234567890123456789012XXX     412
-    X3456789XXXXXXXXX012345678XXXXXXXXXXX90123456789012345678901234567890123456789XXX     469
-    X012345XXXXXXXXXXX67890123XXXXXXXXXX456789012345678901234567890123456789012345XXX     525
-    X67890XXXXXXXXXXXXX1234567XXXXXXXXX890123456X789X012X34567X8X90X1234X56X789X01XXX     571
-    X2345XXXXXXXXXXXXXXX678901XXXXXXXX23456789X0123X456X7890X1X2XX345X678X901X23XXXXX     613
-    X456XXXXXXXXXXXXXXXXX78901XXXXXXX234567X89012X345678X90123X45X6789X012345X678XXXX     658
-    X90X12345678901234567X8901XXXXXX23X45678901X2345678901X2345678901X234567X89012XXX     722
-    X3X4567890123456789012X345XXXXX6789012345678901234X567890123456X789012345678X9XXX     789
-    X0X1234567890123456789X012XXXX34567890123456789012345678901234XXXXXXXXXXXXXXXXXXX     844
-    X56X78901234567890123X4567XXX890123456789XXXXXXXXXXXX01234567890XXXXXXXXXXXXXXXXX     890
-    X123XXXXXXXXXXXXXXXXX45678XXX9012345678901XXXXXXXXXXXXX2345678901234567890123456X     936
-    X7890XXXXXXXXXXXXXXX123456XX7890123456789012345678901234567890123XXXXXXX45678901X     991
-    X23456XXXXXXXXXXXXX7890123X45678XXXXXXXXXXXX901234567XXXX890123456XXXXXXXX789012X     1032
-    X345678XXXXXXXXXXX90123456789012XXXXXXXXXXXX345678901XXX234567890123456789012345X     1085
-    X6789012XXXXXXXXX345678901234567XXXXXXXXXXXX890123456789012345678901234567890123X     1143
-    X45678901XXXXXXX2345678901234567XXXXXXXXXXXX890123456789012345678901234567890123X     1203
-    X456789012XXXXX34567890123456789XXXXXXXXXXXX012345678901234567890123456789012345X     1265
-    X6789012345XXX678901234567890123XXXXXXXXXXXX456789012345678901234567890123456789X     1329
-    X01234567890X1234567890123456789XXXXXXXXXXXX012345678901234567890123456789012345X     1395
-    X6789012345678901234567890123456XXXXXXXXXXXX78901234567XXXXXXXXXX890123456789012X     1452
-    X3456789012345678901234567890123XXXXXXXXXXXX45678901234X56789012X34567890123XXXXX     1513
-    X4567890123456789012345678901234XXXXXXXXXXXX56789012345X67890123X45678901234X567X     1577
-    X8901234567890123456789012345678XXXXXXXXXXXX90123456789X0123X456X78901234567X890X     1640
-    XXXXXXXXXXXXXXXXXXXX123456789012XXXXXXXXXXXX34567890123X4567X890X123456789G1X234X     1684    Goal at 1680
-    X5678901234567890123456789012345XXXXXXXXXXXX67890123456X7890X123X45678901234X567X     1747
-    X8XXXXXXXXXXXXXXXXXX901234567890XXXXXXXXXXXX12345678901X2345X678X90123456789X012X     1792
-    X345678901234567890X12345678901234567890123456789012345X6789X012X34567890123X456X     1866
-    XXXXXXXXXXXXXXXXXX7X89012345678901234567890123456789012X3456X789X01234567890X123X     1923
-    X456789012345678901X23456789012345678901234567890123456X7890X123X4567890123X4567X     1997
-    X8XXXXXXXXXXXXXXXXXX90123456789012345678901234567890123X4567X890X123456789X01234X     2054
-    X567890123456789012X34567890123456789012345678901234567X8901X234X56789012X345678X     2128
-    XXXXXXXXXXXXXXXXXX9X01234567890123456789012345678901234X5678X90123456789X0123456X     2186
-    X789X012X345X678X90X1234567890123456789012345678901234567890X1234567890X12345678X     2258
-    X9X012X345X678X901234567890123456789012345678901234567890123X456789012X345678901X     2331
-    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     2331
-
-
-    Maze 4:
-    XXXXXXXXXXXXXXXXXXXX     -1
-    XS1234567XX89012345X     15
-    X67890123XX45678901X     31
-    X23456789XX01234567X     47
-    X89012345XX67890123X     63
-    X45678901XX23456789X     79
-    X01234567XX89012345X     95
-    X67890123XX45678901X     111
-    X23456789XX01234567X     127
-    X89012345XX67890123X     143
-    X45678901XX23456789X     159
-    X01234567XX89012345X     175
-    X67890123XX45678901X     191
-    X23456789XX0123456GX     207    Goal at 207
-    XXXXXXXXXXXXXXXXXXXX     207
-*/
 }
