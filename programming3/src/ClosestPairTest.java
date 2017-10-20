@@ -20,6 +20,7 @@ public class ClosestPairTest {
         Point pt5 = new Point(4, 2);
         Point pt6 = new Point(10, 10);
         Point pt7 = new Point(7, 9);
+        Point pt8 = new Point(2, 3);
 
         ArrayList<Point> ptsByX = new ArrayList<>(Arrays.asList(pt1, pt2, pt3, pt4, pt5, pt7, pt6));
         ArrayList<Point> ptsByY = new ArrayList<>(Arrays.asList(pt2, pt5, pt1, pt3, pt4, pt7, pt6));
@@ -34,7 +35,7 @@ public class ClosestPairTest {
         ptsByX = new ArrayList<>(Arrays.asList(pt1, pt2, pt3));
         ptsByY = new ArrayList<>(Arrays.asList(pt2, pt1, pt3));
 
-        closestPairDC = new ClosestPairDC();
+//        closestPairDC = new ClosestPairDC();
 
         pointPair = closestPairDC.dcClosestPair(ptsByX, ptsByY);
         System.out.println(pointPair.toString());
@@ -45,11 +46,19 @@ public class ClosestPairTest {
         ptsByX = new ArrayList<>(Arrays.asList(pt2, pt3, pt4));
         ptsByY = new ArrayList<>(Arrays.asList(pt2, pt3, pt4));
 
-        closestPairDC = new ClosestPairDC();
+//        closestPairDC = new ClosestPairDC();
 
         pointPair = closestPairDC.dcClosestPair(ptsByX, ptsByY);
         System.out.println(pointPair.toString());
         Assert.assertEquals((int)(pointPair.getD()*10)/10.0, 1.4);
+
+
+        ptsByX = new ArrayList<>(Arrays.asList(pt2, pt3, pt8, pt4));
+        ptsByY = new ArrayList<>(Arrays.asList(pt2, pt3, pt8, pt4));
+
+        pointPair = closestPairDC.dcClosestPair(ptsByX, ptsByY);
+        System.out.println(pointPair.toString());
+
     }
 
 }

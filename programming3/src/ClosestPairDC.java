@@ -26,6 +26,13 @@ public class ClosestPairDC {
             return bfClosestPair(ptsByX);
         }
 
+        //Check for overlapping points in linear time
+        for (int i = 0; i < ptsByX.size()-1; i++) {
+            if (ptsByX.get(i).equals(ptsByX.get(i+1))) {
+                return new PointPair(ptsByX.get(i), ptsByX.get(i+1));
+            }
+        }
+
         ArrayList<Point> leftByX = new ArrayList<>();
         ArrayList<Point> rightByX = new ArrayList<>();
         ArrayList<Point> leftByY = new ArrayList<>();
