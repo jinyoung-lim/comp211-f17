@@ -9,16 +9,15 @@ public class ClosestPairDC {
     private PointPair recClosestPair;
 
     /**
-     * Constructor takes in a list of n points, (x, y), sorted by x values, and
-     * the same list but sorted by y values.
+     * Constructor for this class.
      */
     public ClosestPairDC() {}
 
     /**
-     *
-     * @param ptsByX
-     * @param ptsByY
-     * @return
+     * Uses divide-and-conquer algorithm to find a closest pair of points from a set of points.
+     * @param ptsByX a set of points sorted by x
+     * @param ptsByY a set of points sorted by y
+     * @return a PointPair containing a regional closest pair coordinates information and their distance
      */
     public PointPair dcClosestPair(ArrayList<Point> ptsByX, ArrayList<Point> ptsByY) {
         //Handle the non-recursive step
@@ -131,6 +130,10 @@ public class ClosestPairDC {
      * @return PointPair containing distance, point coordinates of the closest pair
      */
     private PointPair bfClosestPair(ArrayList<Point> points) {
+        //Handle bad inputs
+        if (points.size() < 2) {
+            return null;
+        }
         PointPair pointPair = new PointPair(points.get(0), points.get(1));
 
         for (int i = 0; i < points.size() - 1; i++) {
@@ -141,7 +144,6 @@ public class ClosestPairDC {
                 }
             }
         }
-
         return pointPair;
     }
 
