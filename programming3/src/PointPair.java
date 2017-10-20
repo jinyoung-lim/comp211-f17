@@ -1,6 +1,7 @@
 import java.awt.*;
 
 /**
+ * Class to make an object of PointPair containing information about a pair of points and their distance
  * Created by Daniel Lim and JJ Lim on 10/17/17.
  */
 public class PointPair {

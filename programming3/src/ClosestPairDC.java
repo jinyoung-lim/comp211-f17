@@ -125,7 +125,7 @@ public class ClosestPairDC {
     }
 
     /**
-     * Brute-force implementation of Closest Pair search algorithm
+     * Brute-force implementation of Closest Pair search algorithm.
      * @param points a set of points to be examined
      * @return PointPair containing distance, point coordinates of the closest pair
      */

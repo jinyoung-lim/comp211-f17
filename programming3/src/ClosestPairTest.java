@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Test Class for ClosestPairDC
+ * Test Class for ClosestPairDC.
  * Created by JJ Lim and Daniel Lim on 10/18/17.
  */
 
