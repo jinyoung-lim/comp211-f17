@@ -62,9 +62,6 @@ public class BottomUpHeap {
      * @return sorted array
      */
     private int[] heapSort(int [] array) {
-        int [] sortedArray = new int [array.length]; //an empty array with same length as the input array
-                                                     // to store sorted values
-
         for (int n = array.length-1; n >= 0; n--) {
             bottomUpHeapify(array, 0, n);
             int max = array[0];
@@ -98,6 +95,15 @@ public class BottomUpHeap {
         System.out.println();
 
         //test heapSort
+
+//        *** Run-time Test for Bottom-up Heapification ***
+//        A reversely ordered array with 10000000 elements: 36
+//        An ordered array with 10000000 elements: 121
+//        A reversely ordered array with 20000000 elements: 65
+//        An ordered array with 20000000 elements: 180
+//        A reversely ordered array with 40000000 elements: 115
+//        An ordered array with 40000000 elements: 528
+
         int [] array3 = {1, 2, 6, 1, 7, 2 ,8, 13, 634, 2, -1, 0};
         int [] sortedArray = heap.heapSort(array3);
         System.out.print("HeapSort: ");
@@ -108,127 +114,128 @@ public class BottomUpHeap {
 
         System.out.println();
         System.out.println("*** Run-time Test for Bottom-up Heapification ***");
-        int [] reverse10 = new int [1000];
+
+        int [] reverse10 = new int [10000000];
         for (int i = 0; i < reverse10.length; i++) {
-            reverse10[i] = 1000-i;
+            reverse10[i] = 10000000-i;
         }
-        long startTime = System.currentTimeMillis();
+        long startTime1 = System.currentTimeMillis();
         heap.bottomUpHeapify(reverse10, 0, reverse10.length-1);
-        long endTime = System.currentTimeMillis();
-        System.out.println("A reversely ordered array with 1000 elements: " + (endTime - startTime));
+        long endTime1 = System.currentTimeMillis();
+        System.out.println("A reversely ordered array with 10000000 elements: " + (endTime1 - startTime1));
 
-
-        int [] ordered10 = new int [1000];
+        int [] ordered10 = new int [10000000];
         for (int i = 0; i < ordered10.length; i++) {
             ordered10[i] = i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime2 = System.currentTimeMillis();
         heap.bottomUpHeapify(ordered10, 0, ordered10.length-1);
-        endTime = System.currentTimeMillis();
-        System.out.println("An ordered array with 1000 elements: " + (endTime - startTime));
+        long endTime2 = System.currentTimeMillis();
+        System.out.println("An ordered array with 10000000 elements: " + (endTime2 - startTime2));
 
-
-        int [] reverse20 = new int [10000];
+        int [] reverse20 = new int [20000000];
         for (int i = 0; i < reverse20.length; i++) {
-            reverse20[i] = 10000-i;
+            reverse20[i] = 20000000-i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime3 = System.currentTimeMillis();
         heap.bottomUpHeapify(reverse20, 0, reverse20.length-1);
-        endTime = System.currentTimeMillis();
-        System.out.println("A reversely ordered array with 10000 elements: " + (endTime - startTime));
+        long endTime3 = System.currentTimeMillis();
+        System.out.println("A reversely ordered array with 20000000 elements: " + (endTime3 - startTime3));
 
-
-        int [] ordered20 = new int [10000];
+        int [] ordered20 = new int [20000000];
         for (int i = 0; i < ordered20.length; i++) {
             ordered20[i] = i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime4 = System.currentTimeMillis();
         heap.bottomUpHeapify(ordered20, 0, ordered20.length-1);
-        endTime = System.currentTimeMillis();
-        System.out.println("An ordered array with 10000 elements: " + (endTime - startTime));
+        long endTime4 = System.currentTimeMillis();
+        System.out.println("An ordered array with 20000000 elements: " + (endTime4 - startTime4));
 
-
-        int [] reverse30 = new int [100000];
+        int [] reverse30 = new int [40000000];
         for (int i = 0; i < reverse30.length; i++) {
-            reverse30[i] = 100000-i;
+            reverse30[i] = 400000000-i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime5 = System.currentTimeMillis();
         heap.bottomUpHeapify(reverse30, 0, reverse30.length-1);
-        endTime = System.currentTimeMillis();
-        System.out.println("A reversely ordered array with 100000 elements: " + (endTime - startTime));
+        long endTime5 = System.currentTimeMillis();
+        System.out.println("A reversely ordered array with 40000000 elements: " + (endTime5 - startTime5));
 
-
-        int [] ordered30 = new int [100000];
+        int [] ordered30 = new int [40000000];
         for (int i = 0; i < ordered30.length; i++) {
             ordered30[i] = i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime6 = System.currentTimeMillis();
         heap.bottomUpHeapify(ordered30, 0, ordered30.length-1);
-        endTime = System.currentTimeMillis();
-        System.out.println("An ordered array with 100000 elements: " + (endTime - startTime));
-
+        long endTime6 = System.currentTimeMillis();
+        System.out.println("An ordered array with 40000000 elements: " + (endTime6 - startTime6));
 
         System.out.println();
         System.out.println("*** Run-time Test for Heapsort ***");
 
         //test time efficiency
-        int [] reverse1 = new int [1000];
+        //(40000*log2(40000))/(20000*log2(20000)) == 2.14
+        //(80000*log2(80000))/(40000*log2(40000)) == 2.13
+
+        int [] reverse1 = new int [20000];
         for (int i = 0; i < reverse1.length; i++) {
-            reverse1[i] = 1000-i;
+            reverse1[i] = 20000-i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime7 = System.currentTimeMillis();
         heap.heapSort(reverse1);
-        endTime = System.currentTimeMillis();
-        System.out.println("A reversely ordered array with 1000 elements: " + (endTime - startTime));
+        long endTime7 = System.currentTimeMillis();
+        System.out.println("A reversely ordered array with 20000 elements: " + (endTime7 - startTime7));
 
-
-        int [] ordered1 = new int [1000];
+        int [] ordered1 = new int [20000];
         for (int i = 0; i < ordered1.length; i++) {
             ordered1[i] = i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime8 = System.currentTimeMillis();
         heap.heapSort(ordered1);
-        endTime = System.currentTimeMillis();
-        System.out.println("An ordered array with 1000 elements: " + (endTime - startTime));
+        long endTime8 = System.currentTimeMillis();
+        System.out.println("An ordered array with 20000 elements: " + (endTime8 - startTime8));
 
-
-        int [] reverse2 = new int [10000];
+        int [] reverse2 = new int [40000];
         for (int i = 0; i < reverse2.length; i++) {
-            reverse2[i] = 10000-i;
+            reverse2[i] = 40000-i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime9 = System.currentTimeMillis();
         heap.heapSort(reverse2);
-        endTime = System.currentTimeMillis();
-        System.out.println("A reversely ordered array with 10000 elements: " + (endTime - startTime));
+        long endTime9 = System.currentTimeMillis();
+        System.out.println("A reversely ordered array with 40000 elements: " + (endTime9 - startTime9));
 
-
-        int [] ordered2 = new int [10000];
+        int [] ordered2 = new int [40000];
         for (int i = 0; i < ordered2.length; i++) {
             ordered2[i] = i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime10 = System.currentTimeMillis();
         heap.heapSort(ordered2);
-        endTime = System.currentTimeMillis();
-        System.out.println("An ordered array with 10000 elements: " + (endTime - startTime));
+        long endTime10 = System.currentTimeMillis();
+        System.out.println("An ordered array with 40000 elements: " + (endTime10 - startTime10));
 
-
-        int [] reverse3 = new int [100000];
+        int [] reverse3 = new int [80000];
         for (int i = 0; i < reverse3.length; i++) {
-            reverse3[i] = 100000-i;
+            reverse3[i] = 80000-i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime11 = System.currentTimeMillis();
         heap.heapSort(reverse3);
-        endTime = System.currentTimeMillis();
-        System.out.println("A reversely ordered array with 100000 elements: " + (endTime - startTime));
+        long endTime11 = System.currentTimeMillis();
+        System.out.println("A reversely ordered array with 80000 elements: " + (endTime11 - startTime11));
 
-
-        int [] ordered3 = new int [100000];
+        int [] ordered3 = new int [80000];
         for (int i = 0; i < ordered3.length; i++) {
             ordered3[i] = i;
         }
-        startTime = System.currentTimeMillis();
+        long startTime12 = System.currentTimeMillis();
         heap.heapSort(ordered3);
-        endTime = System.currentTimeMillis();
-        System.out.println("An ordered array with 100000 elements: " + (endTime - startTime));
+        long endTime12 = System.currentTimeMillis();
+        System.out.println("An ordered array with 80000 elements: " + (endTime12 - startTime12));
+
+//        *** Run-time Test for Heapsort ***
+//        A reversely ordered array with 20000 elements: 735
+//        An ordered array with 20000 elements: 573
+//        A reversely ordered array with 40000 elements: 2302
+//        An ordered array with 40000 elements: 2108
+//        A reversely ordered array with 80000 elements: 9433
+//        An ordered array with 80000 elements: 9011
     }
 }
