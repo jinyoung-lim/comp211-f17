@@ -7,20 +7,7 @@ public class BottomUpHeap {
     /**
      * Constructor of this class
      */
-    public BottomUpHeap () {
-    }
-
-    public int leftChildInd(int nodeInd) {
-        return 2 * nodeInd + 1;
-    }
-
-    public int rightChildInd(int nodeInd) {
-        return 2 * nodeInd + 2;
-    }
-
-    public int parentInd(int nodeInd) {
-        return (int)Math.floor((nodeInd - 1) / 2.0);
-    }
+    public BottomUpHeap () {}
 
     /**
      * Construct a heap from elements of a given array by the bottom-up algorithm
@@ -221,22 +208,5 @@ public class BottomUpHeap {
         heap.heapSort(ordered3);
         long endTime12 = System.currentTimeMillis();
         System.out.println("An ordered array with 80000 elements: " + (endTime12 - startTime12));
-
-
-//        *** Run-time Test for Bottom-up Heapification ***
-//        A reversely ordered array with 10000000 elements: 36
-//        An ordered array with 10000000 elements: 121
-//        A reversely ordered array with 20000000 elements: 65
-//        An ordered array with 20000000 elements: 180
-//        A reversely ordered array with 40000000 elements: 115
-//        An ordered array with 40000000 elements: 528
-
-//        *** Run-time Test for Heapsort ***
-//        A reversely ordered array with 20000 elements: 735
-//        An ordered array with 20000 elements: 573
-//        A reversely ordered array with 40000 elements: 2302
-//        An ordered array with 40000 elements: 2108
-//        A reversely ordered array with 80000 elements: 9433
-//        An ordered array with 80000 elements: 9011
     }
 }
