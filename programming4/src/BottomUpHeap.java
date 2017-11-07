@@ -94,16 +94,8 @@ public class BottomUpHeap {
 
         System.out.println();
 
+
         //test heapSort
-
-//        *** Run-time Test for Bottom-up Heapification ***
-//        A reversely ordered array with 10000000 elements: 36
-//        An ordered array with 10000000 elements: 121
-//        A reversely ordered array with 20000000 elements: 65
-//        An ordered array with 20000000 elements: 180
-//        A reversely ordered array with 40000000 elements: 115
-//        An ordered array with 40000000 elements: 528
-
         int [] array3 = {1, 2, 6, 1, 7, 2 ,8, 13, 634, 2, -1, 0};
         int [] sortedArray = heap.heapSort(array3);
         System.out.print("HeapSort: ");
@@ -229,6 +221,15 @@ public class BottomUpHeap {
         heap.heapSort(ordered3);
         long endTime12 = System.currentTimeMillis();
         System.out.println("An ordered array with 80000 elements: " + (endTime12 - startTime12));
+
+
+//        *** Run-time Test for Bottom-up Heapification ***
+//        A reversely ordered array with 10000000 elements: 36
+//        An ordered array with 10000000 elements: 121
+//        A reversely ordered array with 20000000 elements: 65
+//        An ordered array with 20000000 elements: 180
+//        A reversely ordered array with 40000000 elements: 115
+//        An ordered array with 40000000 elements: 528
 
 //        *** Run-time Test for Heapsort ***
 //        A reversely ordered array with 20000 elements: 735
